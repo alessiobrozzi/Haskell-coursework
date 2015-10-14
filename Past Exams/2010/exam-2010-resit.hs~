@@ -1,0 +1,47 @@
+import Data.Char
+import Test.QuickCheck
+
+-- 1a
+
+f :: [String] -> String
+f =  undefined
+
+-- 1b
+
+g :: [String] -> String
+g =  undefined
+
+-- 1c
+
+h :: [String] -> String
+h =  undefined
+
+-- 2a
+
+p :: [a] -> [a]
+p =  undefined
+
+-- 2b
+
+q :: [a] -> [a]
+q =  undefined
+
+-- 3a
+
+data Term  =  Con Int
+            | X
+            | Term :+: Term
+            | Term :*: Term
+
+eva :: Term -> Int -> Int
+eva (Con x) _                           = x
+eva X x                                 = x
+eva (a :+: b) x                         = eva a x + eva b x
+eva (a :*: b) x                         = eva a x * eva b x
+
+test_eva = eva (Con 3) 3 == 3 && eva (Con 3) 5 == 3 && eva X 3 == 3 && eva X 5 == 5 && eva (X :*: X) 3 == 9 && eva ((X :*: X) :+: Con 1) 3 == 10 && eva (X :*: (X :+: Con 1)) 3 == 12 && eva ((Con 2 :*: (X :*: X)) :+: ((Con 3 :*: X) :+: Con 4)) 5 == 69
+
+-- 3b
+
+sho :: Term -> String
+sho =  undefined

@@ -1,0 +1,124 @@
+-- Informatics 1 Functional Programming
+-- December 2013
+-- SITTING 1 (09:30 - 11:30)
+
+import Test.QuickCheck( quickCheck, 
+                        Arbitrary( arbitrary ),
+                        oneof, elements, sized, (==>)  )
+import Control.Monad -- defines liftM, liftM2, used below
+import Data.Char
+
+-- Question 1
+
+-- 1a
+
+f :: String -> Int
+f xs = sum [ help i (digitToInt x) | (x,i) <- zip (reverse xs) [0..]]
+       where
+         help x y = y * (3 ^ x)
+
+-- 1b
+
+helper :: String -> Int
+helper []     = 0
+helper (y:ys) = ((digitToInt y) * (3 ^ (count 0))) + helper ys
+                   where
+                      count x = x + 1
+
+g :: String -> Int
+g xs     = helper (reverse xs)
+
+
+-- Question 2
+
+-- 2a
+
+p :: [Int] -> Bool
+p xs = and [ h x (head xs) | x <- xs, x > 0]
+     where
+        h x y = mod x y == 0
+
+-- 2b
+h :: [Int] -> Int -> Bool
+h (x:xs) y = mod y x == 0
+
+q :: [Int] -> Bool
+q []                             = True
+q [x]                            = True
+q (x:xs) | x > 0                 = h (x:xs) x && q xs
+         | otherwise             = q xs
+
+-- 2c
+
+--r :: [Int] -> Bool
+--r xs = map (and) (r2 (filter (>0) xs))
+
+-- Question 3
+
+data Expr = X
+          | Const Int
+          | Neg Expr
+          | Expr :+: Expr
+          | Expr :*: Expr
+          deriving (Eq, Ord)
+
+-- turns an Expr into a string approximating mathematical notation
+
+showExpr :: Expr -> String
+showExpr X          =  "X"
+showExpr (Const n)  =  show n
+showExpr (Neg p)    =  "(-" ++ showExpr p ++ ")"
+showExpr (p :+: q)  =  "(" ++ showExpr p ++ "+" ++ showExpr q ++ ")"
+showExpr (p :*: q)  =  "(" ++ showExpr p ++ "*" ++ showExpr q ++ ")"
+
+-- evaluate an Expr, given a value of X
+
+evalExpr :: Expr -> Int -> Int
+evalExpr X v          =  v
+evalExpr (Const n) _  =  n
+evalExpr (Neg p) v    =  - (evalExpr p v)
+evalExpr (p :+: q) v  =  (evalExpr p v) + (evalExpr q v)
+evalExpr (p :*: q) v  =  (evalExpr p v) * (evalExpr q v)
+
+-- For QuickCheck
+
+instance Show Expr where
+    show  =  showExpr
+
+instance Arbitrary Expr where
+    arbitrary  =  sized expr
+        where
+          expr n | n <= 0     =  oneof [elements [X]]
+                 | otherwise  =  oneof [ liftM Const arbitrary
+                                       , liftM Neg subform
+                                       , liftM2 (:+:) subform subform
+                                       , liftM2 (:*:) subform subform
+                                       ]
+                 where
+                   subform  =  expr (n `div` 2)
+
+-- 3a
+
+rpn :: Expr -> [String]
+rpn (X)                 = ["X"]
+rpn (Const x)           = [show x]
+rpn (Neg x)             = ["X"] ++ ["-"]
+rpn (p :+: q)           = rpn p ++ rpn q ++ ["+"]
+rpn (p :*: q)           = rpn p ++ rpn q ++ ["*"]
+
+-- 3 b
+
+evalrpn :: [String] -> Int -> Int
+evalrpn xs n = fromStr (foldl leggi [] xs)
+        where
+          leggi (x:y:zs) "+"    = (y + x) : zs
+          leggi (x:y:zs) "*"    = (y * x) : zs
+          leggi (x:zs)   "-"    = (-x) : zs
+          leggi zs "X"          = n : zs
+          leggi zs a | all (\c -> isDigit c || c == '-' ) a    = (read a :: Int) : zs
+                     | otherwise                               = error "ill-formed"
+          fromStr :: [a] -> a
+          fromStr [x]    = x
+          fromStr xs = error "ill-formed"
+
+test = evalrpn ["X","3","+"] 2 == 5

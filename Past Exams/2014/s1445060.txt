@@ -1,0 +1,72 @@
+MATRIC: s1445060
+TUTOR GROUP: t14
+
+1a) Test case 1 for function f: Passed
+1a) Test case 2 for function f: Passed
+1a) Test case 3 for function f: Passed
+1a) Test case 4 for function f: Passed
+1a) Agreement of f with solution.
+   +++ OK, passed 100 tests.
+
+1b) Test case 1 for function g: Passed
+1b) Test case 2 for function g: Passed
+1b) Test case 3 for function g: Passed
+1b) Test case 4 for function g: Passed
+1b) Agreement of g with solution.
+   +++ OK, passed 100 tests.
+
+1c) Test case 1 for function h: Passed
+1c) Test case 2 for function h: Passed
+1c) Test case 3 for function h: Passed
+1c) Test case 4 for function h: Passed
+1c) Agreement of h with solution.
+   +++ OK, passed 100 tests.
+
+2a) Test case 1 for function t: Passed
+2a) Test case 2 for function t: Passed
+2a) Test case 3 for function t: Passed
+2a) Test case 4 for function t: Passed
+2a) Agreement of t with solution.
+   +++ OK, passed 100 tests.
+
+2a) Agreement of t with solution.
+   +++ OK, passed 100 tests.
+
+2b) Test case 1 for function u: Passed
+2b) Test case 2 for function u: Passed
+2b) Test case 3 for function u: Passed
+2b) Test case 4 for function u: Passed
+2b) Agreement of u with solution.
+   +++ OK, passed 100 tests.
+
+2b) Agreement of u with solution.
+   +++ OK, passed 100 tests.
+
+3a) Test case 1 for function isNorm: Passed
+3a) Test case 2 for function isNorm: Passed
+3a) Test case 3 for function isNorm: Passed
+3a) Test case 4 for function isNorm: Passed
+3a) Agreement of isNorm with solution.
+   +++ OK, passed 100 tests.
+
+3b) Test case 1 for function norm: Passed
+3b) Test case 2 for function norm: Passed
+3b) Test case 3 for function norm: Passed
+3b) Test case 4 for function norm: Passed
+3b) Agreement of norm with solution.
+   +++ OK, passed 100 tests.
+
+
+
+==========
+1a = 12
+1b = 12
+1c = 12
+2a = 16
+2b = 16
+3a = 16
+3b = 16
+
+==========
+Total out of 100: 
+100
